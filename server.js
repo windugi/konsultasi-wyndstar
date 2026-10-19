@@ -243,9 +243,10 @@ app.get('/api/admin/download-pdf', authMiddleware, async (req, res) => {
     res.setHeader('Content-Disposition', 'attachment; filename="Data_Konsultasi_Wyndstar.pdf"');
     doc.pipe(res);
 
-    doc.fontSize(18).font('Helvetica-Bold').text('Laporan Konsultasi Wyndstar Training Center', { align: 'center' });
+    // Menggunakan Times-Bold dan Times-Roman (Font standar PDF yang aman untuk Vercel)
+    doc.fontSize(18).font('Times-Bold').text('Laporan Konsultasi Wyndstar Training Center', { align: 'center' });
     doc.moveDown();
-    doc.fontSize(10).font('Helvetica').text(`Dicetak pada: ${new Date().toLocaleString('id-ID')}`, { align: 'center' });
+    doc.fontSize(10).font('Times-Roman').text(`Dicetak pada: ${new Date().toLocaleString('id-ID')}`, { align: 'center' });
     doc.moveDown(2);
 
     events.forEach((ev, index) => {
@@ -255,8 +256,8 @@ app.get('/api/admin/download-pdf', authMiddleware, async (req, res) => {
       const tanggal = ev.start.dateTime ? ev.start.dateTime.split('T')[0] : '-';
       const jam = ev.start.dateTime ? ev.start.dateTime.split('T')[1].substring(0, 5) : '-';
 
-      doc.fontSize(12).font('Helvetica-Bold').text(`${index + 1}. ${nama}`);
-      doc.fontSize(10).font('Helvetica').text(`Topik   : ${topik}`);
+      doc.fontSize(12).font('Times-Bold').text(`${index + 1}. ${nama}`);
+      doc.fontSize(10).font('Times-Roman').text(`Topik   : ${topik}`);
       doc.text(`Email   : ${email}`);
       doc.text(`Jadwal  : ${tanggal} pukul ${jam} (WITA)`);
       doc.text(`Link    : ${ev.hangoutLink || '-'}`);
