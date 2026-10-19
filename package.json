@@ -11,6 +11,7 @@
     "express": "^4.18.2",
     "googleapis": "^144.0.0",
     "nodemailer": "^6.9.0",
-    "pdfkit": "^0.20.2"
+    "pdfkit": "^0.20.2",
+    "resend": "^6.34.1"
   }
 }

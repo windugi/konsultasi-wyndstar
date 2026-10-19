@@ -9,10 +9,9 @@ const PDFDocument = require('pdfkit');
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // ==========================================
-// SETUP GOOGLE APIS & EMAIL
+// SETUP GOOGLE APIS & EMAIL (SMTP GMAIL)
 // ==========================================
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
@@ -40,7 +39,7 @@ const transporter = nodemailer.createTransport({
 // SISTEM LOGIN SEDERHANA UNTUK ADMIN
 // ==========================================
 const ADMIN_USER = 'adminwyndstar';
-const ADMIN_PASS = 'Wyndstar2026!'; // Silakan ganti password ini sesuka hati
+const ADMIN_PASS = 'Wyndstar2026!'; 
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -51,11 +50,9 @@ const authMiddleware = (req, res, next) => {
     const password = auth[1];
 
     if (username === ADMIN_USER && password === ADMIN_PASS) {
-      return next(); // Loloskan jika benar
+      return next(); 
     }
   }
-  
-  // Jika salah atau belum login, munculkan pop-up browser
   res.set('WWW-Authenticate', 'Basic realm="Admin Wyndstar"');
   res.status(401).send('Akses Ditolak. Anda harus login.');
 };
@@ -122,7 +119,6 @@ app.post('/api/booking', async (req, res) => {
   const endDateTime = `${tanggal}T${endJam}:00+08:00`;
 
   try {
-    // Cek ulang kuota sebelum membuat
     const check = await calendar.events.list({
       calendarId: 'primary', timeMin: startDateTime, timeMax: endDateTime, q: 'Konsultasi'
     });
@@ -276,8 +272,14 @@ app.get('/api/admin/download-pdf', authMiddleware, async (req, res) => {
   }
 });
 
-// Fallback ke index.html
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+// ==========================================
+// FALLBACK & EXPORT (WAJIB UNTUK VERCEL)
+// ==========================================
+// Vercel tidak bisa menggunakan express.static() untuk folder public,
+// jadi kita arahkan langsung ke file HTML.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ Server jalan di http://localhost:${PORT}`));
+// JANGAN gunakan app.listen() di Vercel! Gunakan module.exports.
+module.exports = app;
