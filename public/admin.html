@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Data Konsultasi</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #edebe9; font-size: 14px; }
+    th { background: #1a73e8; color: white; font-weight: 600; }
+    tr:hover { background: #f8f9fa; }
+    .btn-download { background: #d93025; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+    .btn-download:hover { background: #b7271d; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <img src="https://wyndstarportal.netlify.app/logo-wyndstar.png" alt="Logo" class="logo-img">
+        <span>Admin Panel</span>
+      </div>
+      <div class="steps">
+        <a href="index.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">← Kembali ke Web</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h2>Data Seluruh Kandidat</h2>
+      <a href="/api/admin/download-pdf" class="btn-download" target="_blank">📄 Download PDF</a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama Kandidat</th>
+          <th>Topik</th>
+          <th>Email</th>
+          <th>Tanggal</th>
+          <th>Jam (WITA)</th>
+          <th>Link Meet</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr><td colspan="7" style="text-align: center;">Memuat data dari Google Calendar...</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    // Ambil data dari API Backend
+    fetch('/api/admin/data')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        if (data.data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Belum ada data kandidat.</td></tr>';
+          return;
+        }
+
+        data.data.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td><strong>${item.nama}</strong></td>
+            <td>${item.topik}</td>
+            <td>${item.email}</td>
+            <td>${item.tanggal}</td>
+            <td>${item.jam}</td>
+            <td><a href="${item.linkMeet}" target="_blank" style="color: #1a73e8;">Gabung</a></td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => {
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="7" style="text-align: center; color: red;">Gagal memuat data. Pastikan server menyala.</td></tr>';
+      });
+  </script>
+</body>
+</html>

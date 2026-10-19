@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pilih Jadwal - Wyndstar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <img src="https://wyndstarportal.netlify.app/logo-wyndstar.png" alt="Wyndstar Logo" class="logo-img">
+        <span>Wyndstar Training Center</span>
+      </div>
+      <div class="steps">
+        <span class="step done">1. Data</span>
+        <span class="step active">2. Jadwal</span>
+        <span class="step">3. Konfirmasi</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <a href="index.html" class="back-link">← Kembali</a>
+
+    <div class="card">
+      <h2>Pilih Tanggal & Waktu</h2>
+      <h3 id="judulBulan"></h3>
+      <div id="kalender" class="kalender"></div>
+      <h3>Slot Tersedia</h3>
+      <div id="slotContainer" class="slot-container">
+        <p class="hint">Pilih tanggal terlebih dahulu.</p>
+      </div>
+      <button id="btnKonfirmasi" class="btn-primary" disabled>Konfirmasi Jadwal →</button>
+    </div>
+  </main>
+
+  <footer><p>© 2026 Wyndstar Training Center · Didukung oleh Google Meet</p></footer>
+  <script src="app.js"></script>
+</body>
+</html>

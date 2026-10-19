@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konsultasi Wyndstar Training Center</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <img src="https://wyndstarportal.netlify.app/logo-wyndstar.png" alt="Wyndstar Logo" class="logo-img">
+        <span>Wyndstar Training Center</span>
+      </div>
+      <div class="steps">
+        <span class="step active">1. Data</span>
+        <span class="step">2. Jadwal</span>
+        <span class="step">3. Konfirmasi</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Konsultasi Wyndstar via Google Meet</h1>
+      <p>Pilih jadwal, dapat link, langsung gabung dari browser — tanpa perlu install aplikasi.</p>
+    </section>
+
+    <form id="formBooking" class="card">
+      <h2>Data Diri</h2>
+
+      <div class="form-group">
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" required placeholder="Budi Santoso">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required placeholder="budi@email.com">
+        <small>Link Google Meet akan dikirim ke email ini.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="topik">Topik Konsultasi</label>
+        <textarea id="topik" required rows="3" placeholder="Contoh: Konsultasi untuk kapal pesiar"></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary">Lanjut Pilih Jadwal →</button>
+    </form>
+  </main>
+
+  <footer><p>© 2026 Wyndstar Training Center · Didukung oleh Google Meet</p></footer>
+  <script src="app.js"></script>
+</body>
+</html>
